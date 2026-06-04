@@ -1,0 +1,1425 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>군산가족성장학교 참여자 관리 스마트 매뉴얼</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Fonts (Inter & Noto Sans KR) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', 'Noto Sans KR', sans-serif;
+        }
+        /* Custom scrollbar for premium feel */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col">
+
+    <!-- Top Global Settings Notification Bar -->
+    <header class="bg-indigo-900 text-white shadow-md sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="bg-indigo-600 p-2 rounded-lg">
+                    <i data-lucide="book-open" class="h-6 w-6 text-white"></i>
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold tracking-tight">군산시가족센터 실무 지원 포털</h1>
+                    <p class="text-xs text-indigo-200">군산가족성장학교 참여자 관리 매뉴얼 v1.2</p>
+                </div>
+            </div>
+            <!-- Mobile Menu Button -->
+            <button id="mobileMenuBtn" class="md:hidden p-2 rounded-md hover:bg-indigo-800 focus:outline-none">
+                <i data-lucide="menu" class="h-6 w-6"></i>
+            </button>
+            <div class="hidden md:flex items-center space-x-4 text-xs">
+                <span class="bg-emerald-500 text-white px-2 py-1 rounded font-semibold animate-pulse">실무 맞춤형 실시간 갱신 활성화</span>
+                <span class="text-slate-300">사회복지사 전용 도구</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="flex-1 flex flex-col md:flex-row max-w-7xl w-full mx-auto px-0 sm:px-4 lg:px-8 py-6 gap-6">
+        
+        <!-- Left Sidebar / Navigation (Collapsible on mobile) -->
+        <aside id="sidebar" class="hidden md:block w-full md:w-64 flex-shrink-0 bg-white rounded-2xl p-4 shadow-sm border border-slate-200/80 self-start">
+            <h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider px-3 mb-3">메뉴 일람</h2>
+            <nav class="space-y-1">
+                <button onclick="switchTab('dashboard')" id="btn-dashboard" class="tab-btn w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all text-indigo-700 bg-indigo-50/70">
+                    <i data-lucide="layout-dashboard" class="h-4 w-4"></i>
+                    <span>종합 대시보드</span>
+                </button>
+                <button onclick="switchTab('steps')" id="btn-steps" class="tab-btn w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all text-slate-600 hover:bg-slate-50 hover:text-slate-900">
+                    <i data-lucide="milestone" class="h-4 w-4"></i>
+                    <span>단계별 운영 절차</span>
+                </button>
+                <button onclick="switchTab('types')" id="btn-types" class="tab-btn w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all text-slate-600 hover:bg-slate-50 hover:text-slate-900">
+                    <i data-lucide="users" class="h-4 w-4"></i>
+                    <span>유형별 관리 기준</span>
+                </button>
+                <button onclick="switchTab('scenarios')" id="btn-scenarios" class="tab-btn w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all text-slate-600 hover:bg-slate-50 hover:text-slate-900">
+                    <i data-lucide="message-square-text" class="h-4 w-4"></i>
+                    <span>상황별 응대 매뉴얼</span>
+                </button>
+                <button onclick="switchTab('sms')" id="btn-sms" class="tab-btn w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all text-slate-600 hover:bg-slate-50 hover:text-slate-900">
+                    <i data-lucide="send" class="h-4 w-4"></i>
+                    <span>알림톡/문자 예시</span>
+                </button>
+                <button onclick="switchTab('checklists')" id="btn-checklists" class="tab-btn w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all text-slate-600 hover:bg-slate-50 hover:text-slate-900">
+                    <i data-lucide="check-square" class="h-4 w-4"></i>
+                    <span>업무 체크리스트</span>
+                </button>
+                <button onclick="switchTab('security')" id="btn-security" class="tab-btn w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all text-slate-600 hover:bg-slate-50 hover:text-slate-900">
+                    <i data-lucide="shield-alert" class="h-4 w-4"></i>
+                    <span>보안 및 안전 기준</span>
+                </button>
+                <button onclick="switchTab('report')" id="btn-report" class="tab-btn w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all text-slate-600 hover:bg-slate-50 hover:text-slate-900">
+                    <i data-lucide="file-check-2" class="h-4 w-4"></i>
+                    <span>결과보고서용 문장</span>
+                </button>
+            </nav>
+
+            <div class="mt-8 pt-6 border-t border-slate-100">
+                <div class="bg-indigo-50/40 rounded-xl p-3 border border-indigo-100/30">
+                    <h3 class="text-xs font-bold text-indigo-900 flex items-center gap-1.5 mb-1.5">
+                        <i data-lucide="help-circle" class="h-3.5 w-3.5 text-indigo-600"></i>
+                        스마트 기능이란?
+                    </h3>
+                    <p class="text-[11px] text-slate-500 leading-relaxed">
+                        우측의 '스마트 설정기'에 값을 입력하면 매뉴얼 내의 모든 [가변값]이 자동 갱신됩니다.
+                    </p>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Right Main Dashboard Viewport -->
+        <main class="flex-1 flex flex-col gap-6 px-4 sm:px-0">
+            
+            <!-- Global Interactive Values Customizer Widget -->
+            <section class="bg-gradient-to-r from-slate-900 to-indigo-950 text-white rounded-2xl p-5 shadow-lg border border-indigo-800">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-sm font-bold tracking-wide text-indigo-300 uppercase flex items-center gap-2">
+                        <i data-lucide="sliders" class="h-4 w-4"></i>
+                        실무용 스마트 변수 설정기
+                    </h3>
+                    <span class="text-[11px] bg-indigo-500/30 text-indigo-200 border border-indigo-400/30 px-2 py-0.5 rounded-full font-medium">입력 시 전체 스크립트 실시간 반영</span>
+                </div>
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 text-xs">
+                    <div>
+                        <label class="block text-slate-400 mb-1 font-medium">기관(센터)명</label>
+                        <input type="text" id="cfg_center" value="행복가족센터" oninput="updateConfig()" class="w-full bg-slate-800/80 border border-slate-700 rounded-lg px-3 py-1.5 text-white focus:outline-none focus:border-indigo-400">
+                    </div>
+                    <div>
+                        <label class="block text-slate-400 mb-1 font-medium">프로그램명</label>
+                        <input type="text" id="cfg_program" value="부모-자녀 감정코칭 클래스" oninput="updateConfig()" class="w-full bg-slate-800/80 border border-slate-700 rounded-lg px-3 py-1.5 text-white focus:outline-none focus:border-indigo-400">
+                    </div>
+                    <div>
+                        <label class="block text-slate-400 mb-1 font-medium">대상 참여자 성명</label>
+                        <input type="text" id="cfg_target" value="홍길동" oninput="updateConfig()" class="w-full bg-slate-800/80 border border-slate-700 rounded-lg px-3 py-1.5 text-white focus:outline-none focus:border-indigo-400">
+                    </div>
+                    <div>
+                        <label class="block text-slate-400 mb-1 font-medium">대표 연락처</label>
+                        <input type="text" id="cfg_contact" value="02-123-4567" oninput="updateConfig()" class="w-full bg-slate-800/80 border border-slate-700 rounded-lg px-3 py-1.5 text-white focus:outline-none focus:border-indigo-400">
+                    </div>
+                    <div>
+                        <label class="block text-slate-400 mb-1 font-medium">교육 진행 시간/일시</label>
+                        <input type="text" id="cfg_datetime" value="2026년 7월 15일(수) 14:00~16:00" oninput="updateConfig()" class="w-full bg-slate-800/80 border border-slate-700 rounded-lg px-3 py-1.5 text-white focus:outline-none focus:border-indigo-400">
+                    </div>
+                    <div>
+                        <label class="block text-slate-400 mb-1 font-medium">교육 정식 장소</label>
+                        <input type="text" id="cfg_location" value="센터 2층 제1강의실" oninput="updateConfig()" class="w-full bg-slate-800/80 border border-slate-700 rounded-lg px-3 py-1.5 text-white focus:outline-none focus:border-indigo-400">
+                    </div>
+                    <div>
+                        <label class="block text-slate-400 mb-1 font-medium">대기 순번</label>
+                        <input type="text" id="cfg_waiting" value="3" oninput="updateConfig()" class="w-full bg-slate-800/80 border border-slate-700 rounded-lg px-3 py-1.5 text-white focus:outline-none focus:border-indigo-400">
+                    </div>
+                    <div>
+                        <label class="block text-slate-400 mb-1 font-medium">노쇼 패널티 규정 (개월)</label>
+                        <input type="text" id="cfg_penalty" value="3" oninput="updateConfig()" class="w-full bg-slate-800/80 border border-slate-700 rounded-lg px-3 py-1.5 text-white focus:outline-none focus:border-indigo-400">
+                    </div>
+                </div>
+            </section>
+
+            <!-- VIEW: Dashboard -->
+            <div id="view-dashboard" class="view-panel space-y-6">
+                <!-- Stat Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center space-x-4">
+                        <div class="p-3 bg-indigo-50 rounded-xl text-indigo-600">
+                            <i data-lucide="award" class="h-6 w-6"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-slate-500 font-medium">가장 중요한 핵심 가치</p>
+                            <h4 class="text-sm font-bold text-slate-800 mt-0.5">공정, 공감, 안정 관리</h4>
+                        </div>
+                    </div>
+                    <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center space-x-4">
+                        <div class="p-3 bg-emerald-50 rounded-xl text-emerald-600">
+                            <i data-lucide="check-circle-2" class="h-6 w-6"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-slate-500 font-medium">완성된 단계별 프로세스</p>
+                            <h4 class="text-sm font-bold text-slate-800 mt-0.5">전체 11단계 표준화</h4>
+                        </div>
+                    </div>
+                    <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center space-x-4">
+                        <div class="p-3 bg-amber-50 rounded-xl text-amber-600">
+                            <i data-lucide="file-text" class="h-6 w-6"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-slate-500 font-medium">업무 실천 체크리스트</p>
+                            <h4 class="text-sm font-bold text-slate-800 mt-0.5">총 24개 핵심 점검항목</h4>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Manual Core Introduction -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm">
+                    <h3 class="text-base font-bold text-slate-900 mb-2 flex items-center gap-2">
+                        <i data-lucide="sparkles" class="text-indigo-600 h-5 w-5"></i>
+                        실무 가이드라인 개요
+                    </h3>
+                    <p class="text-slate-600 text-sm leading-relaxed mb-4">
+                        가족센터의 10년 이상 경력을 바탕으로 설계된 이 시스템은 예비부모부터 고령층까지 아우르는 생애주기 가족 대상 교육의 행정력 낭비를 줄이고, 민원 문제를 선제적으로 방어하기 위해 설계되었습니다.
+                    </p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+                        <div class="border border-slate-100 rounded-xl p-4 bg-slate-50/50">
+                            <h4 class="text-xs font-bold text-indigo-900 mb-1">기본 운영 방침</h4>
+                            <ul class="text-xs text-slate-500 space-y-1 list-disc list-inside">
+                                <li>선정 및 대기 처리 절차의 객관적 증명 보존</li>
+                                <li>참여자 개인정보 관리의 기술적·물리적 제한 적용</li>
+                                <li>무단결석(노쇼) 전방위 모니터링제 도입</li>
+                            </ul>
+                        </div>
+                        <div class="border border-slate-100 rounded-xl p-4 bg-slate-50/50">
+                            <h4 class="text-xs font-bold text-emerald-900 mb-1">매뉴얼 사용 팁</h4>
+                            <ul class="text-xs text-slate-500 space-y-1 list-disc list-inside">
+                                <li>문자 발송 전 스마트 변수들이 맞게 채워졌는지 확인하세요.</li>
+                                <li>상황 대처 시 스크립트를 즉시 복사하여 비상 전화 시 참고하세요.</li>
+                                <li>체크리스트는 퇴근 전 하루 성과를 확인하는 용도로 쓸 수 있습니다.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VIEW: Steps -->
+            <div id="view-steps" class="view-panel hidden space-y-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+                        <i data-lucide="milestone" class="text-indigo-600"></i>
+                        참여자 관리 단계별 세부 절차
+                    </h2>
+                </div>
+
+                <div class="space-y-4">
+                    <!-- Dynamic rendering of 11 steps via JS for premium details but standard template inside HTML for fallback -->
+                    <div id="steps-container" class="space-y-3">
+                        <!-- Step components will be dynamically rendered for rich styling and interaction -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- VIEW: Types -->
+            <div id="view-types" class="view-panel hidden space-y-6">
+                <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+                    <i data-lucide="users" class="text-indigo-600"></i>
+                    참여자 유형별 세부 대처 가이드
+                </h2>
+                <div id="types-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Dynamic rendering via JavaScript -->
+                </div>
+            </div>
+
+            <!-- VIEW: Scenarios -->
+            <div id="view-scenarios" class="view-panel hidden space-y-6">
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                    <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+                        <i data-lucide="message-square-text" class="text-indigo-600"></i>
+                        12대 민원·돌발 상황별 응대 매뉴얼
+                    </h2>
+                    <div class="relative w-full sm:w-64 text-xs">
+                        <input type="text" id="search-scenarios" placeholder="상황 검색..." oninput="filterScenarios()" class="w-full border border-slate-200 rounded-lg px-3 py-2 pl-8 focus:outline-none focus:ring-1 focus:ring-indigo-500">
+                        <i data-lucide="search" class="absolute left-2.5 top-2.5 h-3.5 w-3.5 text-slate-400"></i>
+                    </div>
+                </div>
+                <div id="scenarios-container" class="space-y-4">
+                    <!-- Dynamic JavaScript Rendering -->
+                </div>
+            </div>
+
+            <!-- VIEW: SMS -->
+            <div id="view-sms" class="view-panel hidden space-y-6">
+                <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+                    <i data-lucide="send" class="text-indigo-600"></i>
+                    문자·카카오톡 템플릿 제너레이터
+                </h2>
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="lg:col-span-1 bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-2 max-h-[500px] overflow-y-auto">
+                        <h3 class="text-xs font-bold text-slate-400 mb-2 uppercase tracking-wider">메시지 템플릿 목록</h3>
+                        <div id="sms-menu" class="space-y-1">
+                            <!-- JS templates menu -->
+                        </div>
+                    </div>
+                    <div class="lg:col-span-2 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between min-h-[400px]">
+                        <div>
+                            <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
+                                <h3 id="sms-title" class="text-base font-bold text-slate-900">템플릿 선택</h3>
+                                <span class="text-[10px] bg-slate-100 text-slate-600 px-2 py-0.5 rounded font-semibold uppercase">공공 표준체 적용</span>
+                            </div>
+                            <div class="bg-slate-50 rounded-xl p-4 border border-slate-100/80 font-mono text-sm text-slate-700 whitespace-pre-wrap leading-relaxed" id="sms-preview-box">
+                                메시지 템플릿을 좌측 리스트에서 선택하면, 입력한 값으로 자동 변경되어 이곳에 노출됩니다.
+                            </div>
+                        </div>
+                        <div class="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between">
+                            <span class="text-xs text-slate-400">발송 전 실무자 연락처가 정확한지 확인하세요.</span>
+                            <button onclick="copyCurrentSms()" class="flex items-center gap-1.5 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-medium shadow-sm transition">
+                                <i data-lucide="copy" class="h-3.5 w-3.5"></i>
+                                <span>메시지 복사하기</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VIEW: Checklists -->
+            <div id="view-checklists" class="view-panel hidden space-y-6">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+                        <i data-lucide="check-square" class="text-indigo-600"></i>
+                        가족교육 프로세스 실무 체크리스트
+                    </h2>
+                    <button onclick="resetChecklists()" class="text-xs font-medium text-slate-400 hover:text-slate-600 flex items-center gap-1">
+                        <i data-lucide="rotate-ccw" class="h-3 w-3"></i> 전체 초기화
+                    </button>
+                </div>
+                <!-- Progress Indicator -->
+                <div class="bg-indigo-50 border border-indigo-100 p-4 rounded-2xl flex items-center justify-between gap-4">
+                    <div class="flex-1">
+                        <div class="flex justify-between text-xs font-semibold text-indigo-900 mb-1">
+                            <span>전체 진행률</span>
+                            <span id="global-progress-txt">0%</span>
+                        </div>
+                        <div class="w-full bg-slate-200/60 h-2 rounded-full overflow-hidden">
+                            <div id="global-progress-bar" class="bg-indigo-600 h-full transition-all duration-300" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-[10px] text-indigo-600 font-bold block">완료 항목</span>
+                        <span id="global-progress-count" class="text-xl font-black text-indigo-900">0/24</span>
+                    </div>
+                </div>
+                
+                <div id="checklists-container" class="space-y-6">
+                    <!-- Dynamic Checklists Rendered Via JS -->
+                </div>
+            </div>
+
+            <!-- VIEW: Security -->
+            <div id="view-security" class="view-panel hidden space-y-6">
+                <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+                    <i data-lucide="shield-alert" class="text-indigo-600"></i>
+                    개인정보 보호 및 안전관리 공공 기준
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm space-y-4">
+                        <h3 class="text-sm font-bold text-indigo-900 flex items-center gap-1.5 border-b border-slate-100 pb-2">
+                            <i data-lucide="file-shield" class="h-4 w-4"></i>
+                            개인정보 처리 실무 원칙
+                        </h3>
+                        <div class="space-y-3 text-xs text-slate-600">
+                            <div>
+                                <h4 class="font-bold text-slate-800 mb-1">1. 개인정보 최소 수집 원칙</h4>
+                                <p class="leading-relaxed">주민등록번호 등 법령상 근거 없는 고유식별정보의 조회를 전면 금지합니다. 오직 예산 활용 증빙 목적의 필수 항목(성명, 실연락처, 거주 구)만 수집해야 합니다.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-slate-800 mb-1">2. 이용 목적 전면 동의제</h4>
+                                <p class="leading-relaxed">온라인 접수 폼 및 종이 신청서 전체에 '제3자 정보제공(여가부 통합 행정망 실적 보고용)' 조항을 필수 입력 처리해 주시기 바랍니다.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-slate-800 mb-1">3. 보관 및 사후 완전 파기 규정</h4>
+                                <p class="leading-relaxed">종이 서류는 시건장치가 장착된 철제 캐비닛에 즉시 보관하고, 엑셀 가공 대장은 비인가자 열람 차단을 위한 암호화 처리를 의무적으로 수행하며, 보존 기간(5년) 경과 시 완전히 분쇄 소각 조치합니다.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm space-y-4">
+                        <h3 class="text-sm font-bold text-rose-900 flex items-center gap-1.5 border-b border-rose-100 pb-2">
+                            <i data-lucide="ambulance" class="h-4 w-4"></i>
+                            안전 예방 및 긴급 대처 프로세스
+                        </h3>
+                        <div class="space-y-3 text-xs text-slate-600">
+                            <div>
+                                <h4 class="font-bold text-slate-800 mb-1">1. 교육 전 1분 소방 대피 동선 고지</h4>
+                                <p class="leading-relaxed">강의가 진행되기 전 비상 대피 통로와 소화기 설치 장소를 참여자들에게 구두 안내하여 재난에 선제적으로 대처합니다.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-slate-800 mb-1">2. 4단계 골든타임 응급 구호 대처</h4>
+                                <div class="bg-slate-50 p-2.5 rounded-lg border border-slate-100 mt-1 space-y-1">
+                                    <span class="block font-bold text-[11px] text-slate-700">① 상황 중단: 즉시 강의 진행을 멈추고 환자 이격 공간 확보</span>
+                                    <span class="block font-bold text-[11px] text-slate-700">② 초동 구호: 센터 내 보관 구급함 약품으로 일차적 안전 조치</span>
+                                    <span class="block font-bold text-[11px] text-slate-700">③ 소방 이송: 중상의 경우 119 즉시 접수 및 보호자 소집 유선 연락</span>
+                                    <span class="block font-bold text-[11px] text-slate-700">④ 내부 보고: 상황 전파 경위를 육하원칙 보고서로 즉시 작성</span>
+                                </div>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-slate-800 mb-1">3. 아동 동반 돌봄 기준</h4>
+                                <p class="leading-relaxed">삼킬 수 있는 장난감 등의 위험 도구 구비를 금지하고 아동 6명당 담당 돌봄 지원인력을 최소 1명 상주 배치해야 합니다.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VIEW: Report -->
+            <div id="view-report" class="view-panel hidden space-y-6">
+                <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+                    <i data-lucide="file-check-2" class="text-indigo-600"></i>
+                    결과보고서 활용 행정 전문 문장 빌더
+                </h2>
+                <div class="bg-indigo-50 border border-indigo-100 p-4 rounded-2xl">
+                    <p class="text-xs text-indigo-950 font-medium leading-relaxed">
+                        가족센터 내부 기안 및 사업 결과보고 시 바로 복사해 쓸 수 있는 '종결형 개조식 문장'들입니다. 우측의 복사 버튼을 누르시면 개별 문장이 클립보드에 바로 저장됩니다.
+                    </p>
+                </div>
+                <div id="reporting-sentences-container" class="space-y-4">
+                    <!-- Dynamic JavaScript Rendering -->
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Simple Toast Notification Widget -->
+    <div id="toast" class="fixed bottom-5 right-5 bg-slate-900 text-white px-4 py-2.5 rounded-xl text-xs font-semibold shadow-xl border border-slate-800 transform translate-y-20 opacity-0 transition-all duration-300 z-50 flex items-center gap-2">
+        <i data-lucide="check-circle" class="h-4 w-4 text-emerald-400"></i>
+        <span id="toast-text">복사되었습니다.</span>
+    </div>
+
+    <!-- Application Engine Script -->
+    <script>
+        // Reactive configurations for text mapping
+        let config = {
+            centerName: "행복가족센터",
+            programName: "부모-자녀 감정코칭 클래스",
+            targetName: "홍길동",
+            contact: "02-123-4567",
+            dateTime: "2026년 7월 15일(수) 14:00~16:00",
+            location: "센터 2층 제1강의실",
+            waitingNo: "3",
+            penaltyMonths: "3"
+        };
+
+        // Static data definitions
+        const stepsData = [
+            {
+                step: "1",
+                title: "모집 전 준비 단계",
+                tasks: "홍보 채널 확정, 신청 양식(온라인 폼/지면) 제작, 개인정보 수집·이용 동의서 검토, 홍보물(포스터, 카드뉴스) 검수",
+                checks: "온라인 접수 시스템의 링크 작동 여부, 중복 접수 차단 설정, 필수 입력 항목(성명, 연락처, 생년월일, 거주지 등) 누락 여부",
+                items: "홍보물 시안, 온라인 신청 폼 링크, 개인정보 수집 동의 문안",
+                note: "생애주기별 특성에 맞는 접수 채널을 선택해야 함(예: 노년층 교육은 방문 및 전화 접수 병행 필수).",
+                text: "본 프로그램은 선착순(또는 우선순위 기준)으로 마감되며, 조기 마감 시 대기자로 접수될 수 있습니다."
+            },
+            {
+                step: "2",
+                title: "참여자 모집 및 홍보 단계",
+                tasks: "센터 홈페이지 게시, SNS(인스타그램, 카카오톡 채널) 업로드, 유관기관 협조 공문 발송, 현수막 게시",
+                checks: "홍보물 유포 채널별 노출 빈도, 타 기관 홍보 협조 여부 확인",
+                items: "홍보 협조 공문, 웹포스터 파일",
+                note: "타깃층이 주로 이용하는 커뮤니티(지역 맘카페, 노인복지관 등)를 타팅하여 홍보 효율을 높임.",
+                text: "가족의 행복한 내일을 위한 생애주기별 맞춤 교육! 지금 신청하세요."
+            },
+            {
+                step: "3",
+                title: "신청 접수 단계",
+                tasks: "접수 현황 실시간 모니터링, 신청서 누락 정보 확인, 유선 문의 응대",
+                checks: "접수 인원 도달률(목표 인원 대비 접수율), 개인정보 동의 여부 체크",
+                items: "접수 대장(엑셀), 유선 접수용 기록지",
+                note: "신청서에 자녀 동반 여부, 주차 필요 여부 등 당일 운영에 영향을 미치는 요소를 반드시 포함하여 접수받아야 함.",
+                text: "정상적으로 접수되었습니다. 참여 선정 여부는 모집 마감 후 개별 안내해 드리겠습니다."
+            },
+            {
+                step: "4",
+                title: "대상자 확인 및 선정 단계",
+                tasks: "선정 기준(관내 주민 우선, 신규자 우선 등)에 따른 대상자 분류, 확정자 및 대기자 명단 확정",
+                checks: "센터 내부 기준(최근 6개월 내 동일 교육 수강 여부 등) 위반자 필터링, 대기 순번 부여의 정확성",
+                items: "참여 확정자 명단, 대기자 명단, 안내 문자 발송 시스템",
+                note: "미선정자의 불만을 최소화하기 위해 객관적인 선정 기준을 명확히 고수해야 함.",
+                text: "축하합니다! [프로그램명] 참여자로 선정되셨습니다. / 금번 교육은 신청 인원 초과로 대기 번호 [대기번호]번으로 배정되셨습니다."
+            },
+            {
+                step: "5",
+                title: "교육 전 안내 단계",
+                tasks: "교육 3일 전 및 1일 전 리마인드 안내 발송, 오시는 길 및 주차 안내, 대면/비대면 준비사항 고지",
+                checks: "변동(취소) 인원 발생 여부 파악 및 대기자 즉시 충원",
+                items: "발송 문자 대장, 교육 안내 리플렛(PDF)",
+                note: "1일 전 안내 시 반드시 '참여 확정 회신(예: '참석' 회신 문구 요구)'을 받아 노쇼를 사전에 방지해야 함.",
+                text: "원활한 진행을 위해 교육 시작 10분 전까지 입실해 주시기 바랍니다."
+            },
+            {
+                step: "6",
+                title: "교육 당일 참여자 관리 단계",
+                tasks: "현장 안내(배너 설치), 출석부 서명 날인 확인, 교재 및 다과 배부, 비대면의 경우 링크 접속 확인 및 음향 체크",
+                checks: "미도착자 유선 연락, 강의실 온도 및 좌석 배치 상태",
+                items: "출석부, 필기구, 네임텍, 교재, 강의실 안내 표지판",
+                note: "개인정보 보호를 위해 출석부 서명 시 타인의 연락처나 개인정보가 노출되지 않도록 가림판을 활용하거나 개별 확인 절차를 거침.",
+                text: "어서 오십시오. 이쪽에서 성함 확인 후 서명해 주시고 자리에 착석해 주세요."
+            },
+            {
+                step: "7",
+                title: "출석·결석·지각·노쇼 관리 단계",
+                tasks: "시작 후 10분 미도착자 확인 전화, 결석 사유 확인, 패널티 적용 안내 등록",
+                checks: "수료 기준(예: 총 회기의 80% 이상 출석 등) 충족 여부 실시간 체크",
+                items: "결석/노쇼 처리 대장, 센터 운영 규정집(패널티 기준)",
+                note: "무단 불참(노쇼) 시 향후 센터 프로그램 이용에 제한이 있을 수 있음을 사전에 공지된 대원칙에 따라 정중히 안내함.",
+                text: "안내해 드린 대로 무단 불참 시 향후 [노쇼패널티]개월간 센터 프로그램 신청이 제한될 수 있음을 양해 부탁드립니다."
+            },
+            {
+                step: "8",
+                title: "교육 중 민원 및 돌발상황 대응 단계",
+                tasks: "강의실 내 소음 제어, 시설 불편(에어컨, 빔프로젝터 등) 즉각 해결, 참여자 간 갈등 중재",
+                checks: "비상구 확보 상태, 구급약품 구비 여부, 강사 및 참여자 요구사항 모니터링",
+                items: "돌발상황 대처 일지, 구급함, 시설 관리자 연락처",
+                note: "강사나 타 참여자에게 방해가 되는 행동을 하는 참여자는 정중하게 강의실 밖으로 안내하여 면담함.",
+                text: "원활한 강의 진행과 다른 참여자분들의 집중을 위해 잠시 밖에서 말씀 나누시겠습니다."
+            },
+            {
+                step: "9",
+                title: "만족도 조사 및 의견수렴 단계",
+                tasks: "설문지(지면 또는 QR코드) 배부 및 수거, 주관식 의견 청취, 수기 설문 데이터 코딩",
+                checks: "설문 회수율(참석 인원 대비 90% 이상 목표), 문항 응답 누락 여부",
+                items: "만족도 설문지, QR 안내 판넬, 필기구, 회수함",
+                note: "만족도 조사는 교육 효과성 평가 및 차년도 사업계획 수립의 핵심 자료이므로, 마지막 회기 종료 전 충분한 시간을 할애하여 작성을 유도함.",
+                text: "작성해 주신 소중한 의견은 더 좋은 가족 프로그램을 만드는 데 적극 반영하겠습니다."
+            },
+            {
+                step: "10",
+                title: "교육 종료 후 사후관리 단계",
+                tasks: "수료증 발급 및 전달, 교육 사진 정리, 사후 모임(동아리 등) 연계 안내, 참여자 DB 업데이트",
+                checks: "수료 기준 충족자 명단 최종 확인, 감사 문자 발송 완료 여부",
+                items: "수료증 출력본, 사후 연계 프로그램 안내지",
+                note: "교육 참여를 계기로 센터의 자조모임이나 상담 등 심화 서비스로 유입될 수 있도록 맞춤형 정보 안내 체계를 구축함.",
+                text: "교육은 끝났지만, 센터의 문은 언제나 열려 있습니다. 자조모임에도 많은 관심 바랍니다."
+            },
+            {
+                step: "11",
+                title: "결과보고 반영 단계",
+                tasks: "만족도 통계 분석(엑셀 통계), 참여자 제안 사항 분류, 결과보고서 작성 및 내부 결재",
+                checks: "예산 집행 정산서와의 인원수 일치 여부, 성과 목표 달성도 정량·정성 평가",
+                items: "결과보고서 양식, 만족도 분석 통계표, 강사 평가서",
+                note: "단순 실적 나열이 아닌, 참여자 특성 분석과 민원 발생 원인 및 해결 과정을 상세히 기록하여 차년도 개선 방향을 명확히 제시해야 함.",
+                text: "(결과보고서 내부 문체) 참여자 만족도 분석 결과, 강사 전문성에 대한 만족도가 매우 높게 나타남."
+            }
+        ];
+
+        const typesData = [
+            {
+                type: "신규 참여자",
+                point: "센터 이미지 형성, 이용 방법 생소함",
+                dir: "센터 시설 및 타 프로그램 이용 안내를 병행하며 친근감 조성",
+                avoid: "늘 하던 대로 하시면 됩니다, 공지사항 읽어보세요",
+                recom: "우리 센터 방문을 환영합니다. 이용에 불편함이 없도록 상세히 안내해 드리겠습니다."
+            },
+            {
+                type: "기존 참여자",
+                point: "익숙함으로 인한 타성에 젖음, 특혜 요구 가능성",
+                dir: "규칙의 형평성을 강조하되, 센터에 대한 기여와 지속적 참여에 감사 표현",
+                avoid: "이미 다 아시면서 왜 그러세요, 기존 분들이 양보하세요",
+                recom: "항상 센터 활동에 함께해 주셔서 감사드립니다. 이번 교육도 공정한 운영을 위해 기준 준수를 부탁드립니다."
+            },
+            {
+                type: "부부 또는 가족 단위 참여자",
+                point: "역할 분담 및 상호 작용, 개별 참여 의사 존중",
+                dir: "부부/가족이 함께 활동할 수 있는 환경을 조성하되, 한쪽에만 치우치지 않도록 유도",
+                avoid: "아버님이 좀 더 적극적으로 하세요, 어머니가 참으셔야죠",
+                recom: "가족이 함께 소통하는 소중한 시간입니다. 서로의 이야기에 귀 기울이는 시간이 되시길 바랍니다."
+            },
+            {
+                type: "노년층 참여자",
+                point: "디지털 취약성, 신체적 불편 고려",
+                dir: "큰 글씨 안내문 제공, 전화 접수 우선 배려, 현장 반복 설명",
+                avoid: "모바일로 직접 확인하세요, 문자 보내드렸는데 못 보셨나요?",
+                recom: "어르신, 어려우신 부분은 제가 직접 도와드리겠습니다. 천천히 말씀해 주세요."
+            },
+            {
+                type: "자녀 동반 참여자",
+                point: "자녀 주의 산만, 강의 집중도 저하",
+                dir: "돌봄 공간 확보 여부 사전 고지, 유아 안전 관리 철저",
+                avoid: "아이 좀 조용히 시켜주세요, 애들 때문에 진행이 안 됩니다",
+                recom: "아이와 함께 편안하게 참여하실 수 있도록 강의실 뒤편에 매트와 교구를 준비해 두었습니다."
+            },
+            {
+                type: "온라인 교육 참여자",
+                point: "접속 불안정, 화면/음소거 관리",
+                dir: "교육 시작 30분 전 원격 접속 테스트 지원, 매 회기 링크 재확인",
+                avoid: "접속 못 하시면 결석 처리됩니다, 알아서 켜고 들어오세요",
+                recom: "링크 접속이 어려우신 분은 지금 센터로 전화 주시면 원격으로 안내해 드리겠습니다."
+            },
+            {
+                type: "대면 교육 참여자",
+                point: "강의실 환경, 이동 동선 안전",
+                dir: "강의실 환기 및 온도 조절, 주차 및 교통편 상세 안내",
+                avoid: "주차 공간 없으니 알아서 하세요, 강의실이 좁아도 참으세요",
+                recom: "대중교통 이용 시 편리하게 오실 수 있습니다. 차량 이용 시 센터 주차장 만차 시 인근 공영주차장을 안내해 드립니다."
+            },
+            {
+                type: "잦은 결석 또는 노쇼 참여자",
+                point: "예산 및 기회 낭비",
+                dir: "사전 조율 및 패널티 규정 엄격 적용, 불참 사유 객관적 파악",
+                avoid: "자꾸 안 오시면 아예 신청 못 합니다, 약속 좀 지켜주세요",
+                recom: "소중한 예산으로 운영되는 교육인 만큼, 다른 대기자분들을 위해 신중한 일정 관리를 부탁드립니다."
+            },
+            {
+                type: "민원 발생 가능성이 높은 참여자",
+                point: "과도한 요구, 사소한 불편에 민감",
+                dir: "경청과 공감을 선행하되, 운영 기준 범위 내에서 단호하고 일관되게 대처",
+                avoid: "그건 저희 규정이 아니라서 안 됩니다, 선생님만 특별히 해드릴 수 없습니다",
+                recom: "말씀하신 불편 사항에 깊이 공감합니다. 다만 모든 참여자분께 동일하게 적용되는 기준이 있어 양해를 구합니다."
+            }
+        ];
+
+        const scenariosData = [
+            {
+                id: 1,
+                title: "신청자가 모집 마감 후 참여를 요청하는 경우",
+                description: "정원이 마감된 이후 전화를 통해 추가 접수를 강하게 요청하는 상황",
+                principle: "선착순 접수의 공정성을 강조하고, 대기자 명단 등록을 제안하여 차선책을 제시함.",
+                checklist: "현재 대기자 수 및 잔여 회기 확인",
+                script: "[참여자명] 선생님, 본 프로그램에 관심을 가져주셔서 정말 감사드립니다. 현재 많은 분의 성원으로 정원 및 초기 대기자 접수까지 마감된 상태입니다. 대기자 명단 후순위로 등록해 드리거나, 혹시 취소자가 발생할 경우 연락을 드려도 괜찮으실까요? 향후 동일한 주제의 교육이 개설될 때 우선적으로 안내 문자를 발송해 드리겠습니다.",
+                followUp: "대기 대장에 연락처 추가 및 사후 교육 수요 조사 명단에 반영"
+            },
+            {
+                id: 2,
+                title: "대기자가 참여 가능 여부를 문의하는 경우",
+                description: "대기 순번을 받은 신청자가 본인의 순서와 참여 가능 가능성을 독촉하는 상황",
+                principle: "현재 대기 순번을 명확히 고지하고, 취소자 발생 시 연락이 가는 시스템을 신뢰감 있게 설명함.",
+                checklist: "해당 대기자의 정확한 순번, 기존 확정자들의 취소 의사 여부",
+                script: "기다려 주셔서 감사합니다. 현재 선생님의 대기 순번은 [대기번호]번입니다. 교육 전날까지 취소자가 발생하면 순번에 따라 즉시 개별 연락을 드리고 있습니다. 혹시 교육 시작 전까지 연락을 받지 못하시더라도 차기 교육 과정에 먼저 참여하실 수 있도록 명단을 별도로 관리하겠습니다.",
+                followUp: "취소자 발생 시 대기 순번에 따라 즉시 연락 및 확정 처리"
+            },
+            {
+                id: 3,
+                title: "선정되지 않은 참여자가 사유를 묻는 경우",
+                description: "미선정 안내 문자를 받은 후, 탈락 기준에 대해 항의성 문의를 하는 상황",
+                principle: "사전에 공지된 객관적 선정 기준(예: 신규 참여자 우선, 관내 거주자 제한 등)을 차분히 설명하고 위로를 전함.",
+                checklist: "해당 신청자의 신청 시점, 센터 참여 이력",
+                script: "기대에 부응하지 못해 송구한 마음입니다. 금번 교육은 한정된 예산과 장소로 인해 [관내 거주 신규 신청자 우선 선발]이라는 기준에 따라 선정이 진행되었습니다. 신청서 접수 순서와 기준을 대조하는 과정에서 불가피하게 선정이 되지 못하셨음을 양해 부탁드립니다. 다음 분기 교육에는 참여하실 수 있도록 일정을 더욱 세심하게 안내하겠습니다.",
+                followUp: "선정 프로세스의 기록(엑셀 및 시스템 로그)을 명확히 보관하여 감사의 근거로 활용"
+            },
+            {
+                id: 4,
+                title: "참여자가 교육 당일 불참을 통보하는 경우",
+                description: "교육 시작 몇 시간 전 또는 직전에 갑작스러운 사정으로 불참을 유선 고지하는 상황",
+                principle: "사정은 수용하되, 당일 취소로 인해 다른 대기자가 기회를 잃게 됨을 정중히 상기시키고 교재 수령 등의 대안을 안내함.",
+                checklist: "대기자 명단을 확인하여 즉시 충원이 가능한 시간인지 판단",
+                script: "갑작스러운 일정이 생기셔서 많이 당황하셨겠습니다. 사정은 이해되나, 교육 당일 취소의 경우 준비된 교재와 다과가 낭비되고 대기자분들이 참여할 수 없는 아쉬움이 있습니다. 이번 회기는 불참 처리되나, 제공되는 교육 자료는 다음 방문 시 수령하실 수 있도록 보관해 두겠습니다. 다음 회기 참여 여부를 미리 확인해 주시면 감사하겠습니다.",
+                followUp: "출석부에 '당일 취소' 표기, 연속 회기 교육일 경우 차시 참석 여부 재확인"
+            },
+            {
+                id: 5,
+                title: "무단결석 또는 노쇼가 발생한 경우",
+                description: "사전 연락 없이 교육에 참석하지 않고, 연락도 두절되거나 사후에 연락이 닿은 상황",
+                principle: "감정적 대응을 배제하고, 센터 운영 규정에 명시된 패널티(향후 신청 제한) 조항을 객관적으로 고지함.",
+                checklist: "사전 안내 문자 정상 발송 여부 기록 확인",
+                script: "안녕하세요, [ㅇㅇ가족센터]입니다. 금일 진행된 [프로그램명] 교육에 연락 없이 참석하지 않으셔서 확인차 연락드렸습니다. 저희 센터 프로그램은 무료로 운영되지만 주민들의 소중한 세금과 대기자분들의 기회 비용이 포함되어 있습니다. 사전 연락 없는 불참 시 센터 규정에 따라 [노쇼패널티]개월간 프로그램 신청이 제한될 수 있음을 안내해 드립니다.",
+                followUp: "패널티 대상자 명단 등록 및 시스템에 무단불참 기록 입력"
+            },
+            {
+                id: 6,
+                title: "지각자가 교육 참여 가능 여부를 묻는 경우",
+                description: "교육 시작 시간보다 20~30분 이상 늦게 도착할 것으로 예상되어 전화를 하거나 현장에 나타난 상황",
+                principle: "타 참여자의 학습권 보장을 위해 조용히 입실하도록 안내하고, 지각으로 인한 수료 기준 감점을 설명함.",
+                checklist: "총 교육 시간 대비 지각 시간이 출석 인정 범위(예: 15분 이내)를 벗어났는지 확인",
+                script: "조심히 오십시오. 지금 강의가 진행 중이오니 강의실 뒷문으로 조용히 입실해 주시기 바랍니다. 다만, 센터 수료 규정상 시작 후 15분 이상 지각 시 해당 회기는 '지각'으로 기록되며, 총 출석 시간에 영향을 줄 수 있음을 미리 양해 부탁드립니다. 입실하시면 앞쪽 출석부에 서명 부탁드립니다.",
+                followUp: "출석부에 지각 시간 기재 및 수료증 발급 점수 산정 시 반영"
+            },
+            {
+                id: 7,
+                title: "참여자가 교육 내용에 불만을 제기하는 경우",
+                description: "교육 중 또는 종료 후 내용이 본인의 기대와 다르거나 수준이 맞지 않는다고 항의하는 상황",
+                principle: "경청과 공감을 통해 불만 요인을 명확히 파악하고, 만족도 조사지 서술이나 차년도 기획 반영을 약속함.",
+                checklist: "다른 참여자들의 전반적인 반응 모니터링, 강사 강의 계획서 일치 여부",
+                script: "교육 내용이 선생님께서 기대하셨던 방향과 달라 아쉬움이 크셨을 것 같습니다. 어떤 부분이 특히 보완되었으면 좋겠는지 말씀해 주시면, 저희가 강사님과 상의하거나 다음 프로그램 기획 시 난이도와 세부 내용을 조정하는 데 소중한 자료로 활용하겠습니다. 만족도 조사서에 해당 내용을 상세히 적어주시면 더욱 감사하겠습니다.",
+                followUp: "민원 내용을 강사에게 피드백하고, 결과보고서의 '개선 조치' 사항에 기록"
+            },
+            {
+                id: 8,
+                title: "강사 또는 교육 방식에 대한 민원이 발생한 경우",
+                description: "강사의 언행, 태도, 또는 특정 발언(정치적, 종교적, 성차별적 요소 등)에 대해 참여자가 강력히 항의하는 상황",
+                principle: "즉각적인 사과와 분위기 쇄신 약속, 해당 사안에 대한 사실관계 확인 및 센터 차원의 엄정 대처 의지 표명",
+                checklist: "해당 발언의 맥락 파악 녹취 또는 타 참여자 증언 확인",
+                script: "강사님의 언행으로 인해 교육 중 큰 불편함을 느끼셨다니 진심으로 송구합니다. [ㅇㅇ가족센터]는 모든 가족의 평등과 존중을 가치로 삼고 있습니다. 제기해 주신 문제는 담당자로서 매우 엄중하게 받아들이고 있으며, 해당 강사님께 사실 확인 및 강력한 주의 조치를 취하겠습니다. 또한 향후 강사 위촉 및 모니터링을 더욱 강화하겠습니다.",
+                followUp: "강사 대상 구두/서면 경고, 필요시 강사 풀(Pool) 제외 및 교체 검토"
+            },
+            {
+                id: 9,
+                title: "자녀 동반이 불가한 교육에 자녀 동반을 요청하는 경우",
+                description: "부부 교육 등 집중도가 필요하여 자녀 동반 불가로 공지했음에도 당일 자녀를 데리고 온 상황",
+                principle: "공지 내용을 상기시키되 현장에서 즉각 퇴장시키기 어려우므로, 센터 내 대체 공간(돌봄실 등) 활용이나 강의실 뒷좌석 배정을 유연하게 대처함.",
+                checklist: "당일 아이를 돌볼 수 있는 자원봉사자나 대체 공간 유무 확인",
+                script: "어머니, 사전 안내드린 대로 본 교육은 부부간 깊이 있는 소통을 위해 자녀 동반이 어려운 프로그램입니다. 다른 참여자분들의 집중을 위해 원칙적으로는 입실이 어려우나, 오늘은 비어있는 옆 돌봄실에서 아이가 대기할 수 있도록 조치해 드리겠습니다. 다만 전담 돌봄 인력이 없으니 쉬는 시간마다 아이 상태를 꼭 확인해 주시기 바랍니다.",
+                followUp: "교육 전 안내 문구에 '자녀 동반 절대 불가' 문구를 시각적으로 강조하여 재기획"
+            },
+            {
+                id: 10,
+                title: "개인정보 제공에 부담을 느끼는 경우",
+                description: "신청서 작성이나 출석부 서명 시 생년월일, 주소, 연락처 등의 수집에 대해 예민하게 반응하는 상황",
+                principle: "수집 목적(공공 예산 집행 증빙, 중복 수혜 방지 등)을 명확히 하고, 법적으로 안전하게 관리 및 파기됨을 확신시킴.",
+                checklist: "개인정보 수집·이용 동의서 서식의 구비 여부",
+                script: "개인정보 노출에 대해 우려하시는 마음은 충분히 이해합니다. 저희 [ㅇㅇ가족센터]에서 수집하는 정보는 여성가족부 및 지자체 지침에 따라 공공 예산이 적절하게 투입되었는지 확인하는 증빙 목적으로만 사용됩니다. 작성해 주신 정보는 암호화되어 안전하게 관리되며, 교육 종료 및 보존 기한 만료 후 즉시 파기되오니 안심하고 작성해 주셔도 됩니다.",
+                followUp: "지면 서류의 경우 잠금장치가 있는 캐비닛에 즉시 보관"
+            },
+            {
+                id: 11,
+                title: "만족도 조사 참여를 거부하는 경우",
+                description: "교육이 끝난 후 바쁘다는 사유 등으로 만족도 설문지를 작성하지 않고 그냥 가려는 상황",
+                principle: "만족도 조사가 본 교육의 지속 여부를 결정하는 중요한 행정 절차임을 설명하고 단 1분 만에 끝낼 수 있음을 강조함.",
+                checklist: "모바일(QR) 설문이 가능한 환경인지 확인하여 접근성 높임",
+                script: "선생님, 오늘 교육 참여해 주셔서 감사합니다. 가시기 전 전해드린 만족도 조사는 본 프로그램이 내년에도 계속 운영될 수 있을지를 결정하는 아주 중요한 증빙 자료가 됩니다. 문항이 간단하여 1분이면 작성이 가능하오니, 잠시만 시간을 내어 작성해 주시면 저희 센터 발전에 큰 도움이 되겠습니다.",
+                followUp: "설문 참여자에게 소정의 기념품(물티슈, 장바구니 등)을 제공하여 참여율 유도"
+            },
+            {
+                id: 12,
+                title: "수료증 또는 참여확인서를 요청하는 경우",
+                description: "직장 제출, 학교 제출 등의 목적으로 공식적인 수료증이나 확인서 발급을 즉석에서 요구하는 상황",
+                principle: "발급 기준(출석률 등) 충족 여부를 확인한 후, 정해진 행정 절차 및 소요 시간(직인 날인 등)을 안내함.",
+                checklist: "참여자의 총 출석 시간 실적 확인, 센터장 직인 사용 대장 확인",
+                script: "네, 확인서 발급이 가능합니다. 우선 선생님의 출석률을 확인한 결과 기준인 80%를 충족하셨습니다. 수료증은 센터장 직인 날인 절차가 필요하여 현장에서 즉시 발급은 어려우며, 신청서에 이메일 주소를 적어주시면 내일 오전 중으로 직인이 날인된 PDF 파일을 발송해 드리겠습니다.",
+                followUp: "내부 발급 대장에 기록 후 이메일 발송 및 확인 유선 연락"
+            }
+        ];
+
+        const smsTemplates = [
+            {
+                id: "sms-reg-ok",
+                title: "1. 신청 접수 완료 안내",
+                content: `[[ㅇㅇ가족센터]] 교육 신청 접수 완료
+
+안녕하세요, 신청자님.
+[[ㅇㅇ가족센터]] 생애주기별 교육 프로그램에 신청해 주셔서 대단히 감사합니다.
+고객님의 신청서가 정상적으로 접수되었습니다.
+
+본 안내는 '접수 완료' 안내이며, 최종 '참여 선정' 결과는 모집 마감 후 개별 문자(알림톡)를 통해 재안내해 드릴 예정입니다.
+
+▣ 신청 프로그램: [[프로그램명]]
+▣ 문의: 가족센터 가족교육팀 ([대표연락처])`
+            },
+            {
+                id: "sms-select-ok",
+                title: "2. 선정 안내",
+                content: `[[ㅇㅇ가족센터]] 교육 참여자 선정 안내
+
+축하드립니다!
+신청해 주신 [[프로그램명]]의 최종 참여자로 선정되셨습니다. 소중한 만남을 기대하며, 아래 일정을 확인해 주시기 바랍니다.
+
+▣ 일시: [[교육일시]]
+▣ 장소: [[교육장소]]
+▣ 준비물: 필기구
+
+※ 원활한 진행을 위해 시작 10분 전까지 입실해 주세요.
+※ 변동 사항이 있거나 취소를 원하실 경우, 대기자분들을 위해 최소 3일 전까지 연락 부탁드립니다.`
+            },
+            {
+                id: "sms-waiting-guide",
+                title: "3. 대기자 안내",
+                content: `[[ㅇㅇ가족센터]] 프로그램 대기 순번 안내
+
+안녕하세요, 신청자님. [[ㅇㅇ가족센터]]입니다.
+이번 [[프로그램명]]에 많은 성원을 보내주셔서 조기에 정원이 마감되었습니다.
+
+이에 따라 신청자님은 현재 대기 [[대기번호]]번으로 등록되셨음을 안내해 드립니다.
+기존 선정자 중 취소자가 발생할 경우 대기 순번에 따라 개별적으로 연락을 드릴 예정입니다.
+
+기회를 전해드리지 못해 양해를 구하며, 더 좋은 프로그램으로 다시 찾아뵙겠습니다.`
+            },
+            {
+                id: "sms-reject-guide",
+                title: "4. 미선정 안내",
+                content: `[[ㅇㅇ가족센터]] 프로그램 미선정 안내
+
+안녕하세요, 신청자님. [[ㅇㅇ가족센터]]입니다.
+저희 센터 생애주기별 교육에 신청해 주셔서 감사드립니다.
+
+금번 교육은 한정된 정원으로 인해 [선정 기준: 신규 참여자 우선]에 따라 불가피하게 미선정되었음을 안내해 드립니다.
+제한된 자리로 인해 모든 분을 모시지 못하는 점 넓은 양해를 부탁드립니다.
+
+추후 진행될 다양한 가족 프로그램 일정을 우선적으로 안내해 드리겠으며, 앞으로도 많은 관심 부탁드립니다.`
+            },
+            {
+                id: "sms-d3-guide",
+                title: "5. 교육 3일 전 안내",
+                content: `[[ㅇㅇ가족센터]] 교육 3일 전 리마인드 안내
+
+안녕하세요, [[참여자명]]님!
+설레는 마음으로 기다리던 [[프로그램명]] 교육이 3일 앞으로 다가왔습니다.
+
+▣ 일시: [[교육일시]]
+▣ 장소: [[교육장소]]
+▣ 주차 안내: 센터 주차장 협소로 대중교통 이용을 권장합니다.
+
+[참석 여부 회신 요청]
+본 문자를 받으시면 금일 중으로 "참석" 또는 "불참"이라고 본 번호로 회신해 주시기 바랍니다. (미회신 시 대기자에게 순번이 넘어갈 수 있습니다.)`
+            },
+            {
+                id: "sms-d1-guide",
+                title: "6. 교육 하루 전 안내",
+                content: `[[ㅇㅇ가족센터]] 내일은 교육이 있는 날입니다.
+
+안녕하세요, [[참여자명]]님.
+내일 진행되는 [[프로그램명]] 최종 안내를 드립니다.
+
+▣ 일시: 내일 오후 2시
+▣ 장소: [[교육장소]]
+▣ 내일 강의는 부부 소통 활동이 포함되어 있어 활동하기 편한 복장으로 참석해 주시기 바랍니다.
+
+늦으실 경우 타 참여자분들께 지장을 줄 수 있으니 10분 전 입실을 꼭 준수해 주세요. 내일 건강한 모습으로 뵙겠습니다.`
+            },
+            {
+                id: "sms-d0-guide",
+                title: "7. 교육 당일 안내",
+                content: `[[ㅇㅇ가족센터]] 당일 리마인드 (오늘 진행)
+
+안녕하세요. 오늘 [[프로그램명]] 교육이 시작됩니다.
+
+강의실 온도를 쾌적하게 맞추고 교재와 다과를 준비하여 기다리고 있습니다. 오시는 길 조심히 오시기 바랍니다.
+
+▣ 장소: [[교육장소]]
+▣ 입실 시간: 교육 시작 10분 전까지
+
+※ 변동 사항이 있으신 경우 즉시 연락해 주시기 바랍니다. 잠시 후 뵙겠습니다.`
+            },
+            {
+                id: "sms-absent-guide",
+                title: "8. 지각 및 불참 안내",
+                content: `[[ㅇㅇ가족센터]] 불참 확인 및 안내
+
+안녕하세요, [[참여자명]]님. [[ㅇㅇ가족센터]]입니다.
+오늘 진행된 [[프로그램명]]에 참석하지 못하셔서 연락드렸습니다.
+
+유선으로 말씀해 주신 사정(또는 무단 불참)은 확인되었으며, 본 교육의 잔여 회기 참석 여부를 확인하고자 합니다. 연속 프로그램의 경우 다음 회기 참석은 가능하오니 일정 확인을 부탁드립니다.
+
+※ 사전 연락 없는 무단 불참 시 센터 규정에 따라 향후 프로그램 이용에 제한([[노쇼패널티]]개월)이 있을 수 있음을 환기해 드립니다.`
+            },
+            {
+                id: "sms-survey-guide",
+                title: "9. 만족도 조사 요청",
+                content: `[[ㅇㅇ가족센터]] 만족도 조사 참여 요청
+
+안녕하세요, 참여자님.
+오늘 [[프로그램명]] 교육은 유익하셨나요?
+
+참여자님의 소중한 의견은 더 유익하고 센스 있는 가족 교육을 기획하는 데 큰 바탕이 됩니다. 단 1분만 시간을 내어 아래 링크를 통해 설문에 참여해 주세요.
+
+▣ 설문 참여 링크: https://forms.gle/sampleSurvey
+▣ 참여 기간: 오늘까지
+
+설문에 응해 주신 분들께는 추첨을 통해 소정의 기프티콘을 발송해 드립니다. 감사합니다.`
+            },
+            {
+                id: "sms-thanks-guide",
+                title: "10. 교육 종료 감사 인사",
+                content: `[[ㅇㅇ가족센터]] 교육 수료 감사 인사
+
+안녕하세요, 참여자님.
+바쁜 일정 중에도 [[프로그램명]] 전 과정을 성황리에 수료해 주셔서 진심으로 감사드립니다.
+
+이번 교육을 통해 가족 간에 더 깊이 이해하고 사랑을 나누는 계기가 되셨기를 바랍니다. 앞으로도 저희 센터는 가족의 행복을 지원하는 든든한 동반자가 되겠습니다. 가정에 늘 평화와 행복이 가득하시길 기원합니다.`
+            },
+            {
+                id: "sms-next-guide",
+                title: "11. 다음 프로그램 연계 안내",
+                content: `[[ㅇㅇ가족센터]] 후속 프로그램 연계 안내
+
+안녕하세요, 참여자님.
+지난번 수강하신 [[프로그램명]]에 이어, 심화 과정이자 생애주기별 맞춤형 후속 프로그램이 개설되어 안내해 드립니다.
+
+▣ 프로그램: 부모-자녀 감정코칭 심화반
+▣ 대상: 이전 과정 수료자 우선 선발
+▣ 신청 링크: https://forms.gle/sampleNextClass
+
+선착순 마감이오니 관심 있는 참여자분들의 빠른 신청 바랍니다.`
+            }
+        ];
+
+        const checklistSections = [
+            {
+                category: "모집 전 단계",
+                items: [
+                    { id: "c1_1", text: "사업계획서 내부 결재 및 예산 편성이 완전히 종결되었는가?" },
+                    { id: "c1_2", text: "포스터 및 카드뉴스에 일시, 장소, 대상, 신청 방법 등이 시인성 있게 포함되었는가?" },
+                    { id: "c1_3", text: "온라인 접수 폼 개설 시 개인정보 수집 및 활용 동의서 필수 체크 설정을 확인했는가?" },
+                    { id: "c1_4", text: "관련 동주민센터 및 어린이집 등에 협조 공문을 발송하였는가?" }
+                ]
+            },
+            {
+                category: "접수 시 단계",
+                items: [
+                    { id: "c2_1", text: "온라인 접수 현황을 실시간 엑셀 대장으로 통합 동기화하고 있는가?" },
+                    { id: "c2_2", text: "신청자 중 연락처 오기재, 타 거주 지역 배제 등의 자격 미달 항목을 스크리닝했는가?" },
+                    { id: "c2_3", text: "패널티 제재 기간 중 무단 노쇼 기록자가 다시 접수했는지 확인하였는가?" },
+                    { id: "c2_4", text: "확정자 및 대기 순번 지정자에게 표준 가이드에 의거한 통지 문자를 전송했는가?" }
+                ]
+            },
+            {
+                category: "교육 전날 단계",
+                items: [
+                    { id: "c3_1", text: "초빙 강사와 도착 시각, 교안 최종본 전달 여부 및 주차 등록 여부를 재확인했는가?" },
+                    { id: "c3_2", text: "당일 인쇄 배포할 교재, 필기구, 다과, 네임텍, 수료증을 정밀 카운팅하여 검수했는가?" },
+                    { id: "c3_3", text: "강의용 음향, 빔프로젝터, 냉난방 설비가 모두 원활히 제어되는지 사전 시뮬레이션했는가?" },
+                    { id: "c3_4", text: "리마인드 참석 확인 문자를 발송하여 무단 불참 예정자의 취소를 유도했는가?" }
+                ]
+            },
+            {
+                category: "교육 당일 단계",
+                items: [
+                    { id: "c4_1", text: "센터 출입 동선 내에 유도 배너와 표지판을 명확한 눈높이에 맞춰 부착했는가?" },
+                    { id: "c4_2", text: "개인정보 수집 유출을 막는 가림판 처리가 완료된 수기 출석부를 비치했는가?" },
+                    { id: "c4_3", text: "시작 시간 10분 전 미입실 확정자에게 전화를 걸어 사유와 지각 여부를 체크했는가?" },
+                    { id: "c4_4", text: "소화기 작동 준비 상태, 안전 동선 비상구 개방, 돌봄 매트 설치가 완료되었는가?" }
+                ]
+            },
+            {
+                category: "교육 종료 후 단계",
+                items: [
+                    { id: "c5_1", text: "참석자 전원에게 지면 혹은 모바일 만족도 설문 작성을 이끌어내고 수거했는가?" },
+                    { id: "c5_2", text: "강의실 원상 복구 및 냉난방기 소등, 모든 대여 장비 반납 처리를 끝냈는가?" },
+                    { id: "c5_3", text: "당일 최종 수료자 명단을 확정하고 미참석 감사 및 안내 QR 문자를 당일 전송했는가?" },
+                    { id: "c5_4", text: "교육 실적 입증용 고화질 현장 사진 취합 및 출석부 스캔 데이터 업로드를 마쳤는가?" }
+                ]
+            },
+            {
+                category: "결과보고 작성 전 단계",
+                items: [
+                    { id: "c6_1", text: "지출 증빙 영수증 수량과 실물 출석 서명 수가 완벽히 매칭하는지 대조했는가?" },
+                    { id: "c6_2", text: "수집된 만족도 주관식 제언 사항들을 텍스트 원문으로 빠짐없이 기록했는가?" },
+                    { id: "c6_3", text: "강의 운영 도중 발현된 현장 돌발 사고 및 이에 따른 대처 경과를 기록해 두었는가?" },
+                    { id: "c6_4", text: "참여자 통계에 기반하여 미비점 분석 및 차기 년도 개선 안을 도출하였는가?" }
+                ]
+            }
+        ];
+
+        const reportSentences = [
+            {
+                category: "1. 참여자 모집 및 관리 결과 문장",
+                sentences: [
+                    "생애주기별 특성을 반영한 맞춤형 홍보(지역 맘카페 및 카카오톡 채널 활용)를 전개한 결과, 목표 인원 대비 120%의 접수율을 기록하며 조기 마감되었음.",
+                    "접수 단계부터 대기자 관리 시스템을 가동하여 결원 발생 시 즉각적인 스케줄 조율을 통해 참여 기회의 형평성을 제고함."
+                ]
+            },
+            {
+                category: "2. 출석률 관련 문장",
+                sentences: [
+                    "총 4회기 교육 과정 동안 교육 전날 '참석 확답 회신제'를 도입하여 무단 노쇼를 사전에 차단함으로써 평균 출석률 93.5%를 달성하는 성과를 거둠.",
+                    "지각 및 당일 취소자에 대한 사유 분석 결과, 직장인의 퇴근 시간대 이동 지연이 주된 원인으로 파악되어 향후 일정 수립에 반영할 필요가 있음."
+                ]
+            },
+            {
+                category: "3. 만족도 조사 결과 반영 문장",
+                sentences: [
+                    "참여자 대상 만족도 조사 결과, 5점 만점 기준 평균 4.75점으로 전반적인 프로그램 구성과 강사의 전문성에 대해 매우 높은 수준의 평가가 이루어졌음.",
+                    "교재의 실용성과 현장 시설 쾌적성 항목에서 각각 4.8점으로 최고점을 기록하여 물리적 환경 제공이 만족도 상승에 기여한 것으로 분석됨."
+                ]
+            },
+            {
+                category: "4. 참여자 의견수렴 결과 문장",
+                sentences: [
+                    "주관식 의견 분석 결과, 이론 중심의 강의보다 부부 소통 워크숍 및 역할극 등 참여형 활동의 비중을 확대해 달라는 요구가 다수 도출되었음.",
+                    "가족 단위 참여자들의 경우, 주말 시간대 개설에 대한 선호도가 높게 나타나 차년도 사업 기획 시 주말 과정 개설을 검토할 필요가 있음."
+                ]
+            },
+            {
+                category: "5. 민원 및 돌발상황 대응 결과 문장",
+                sentences: [
+                    "강의 중 발생한 영유아 소음 관련 민원에 대해 현장에서 즉각 대기실 돌봄 서비스로 연계 조치함으로써 타 참여자들의 학습권 침해를 최소화함.",
+                    "개인정보 수집에 거부감을 보이는 참여자에게 행정 증빙 목적 및 파기 프로세스를 명확히 설명하여 민원을 원만히 해소하고 동의를 유도함."
+                ]
+            },
+            {
+                category: "6. 차년도 개선방향 문장",
+                sentences: [
+                    "잦은 노쇼 방지를 위해 사전 취소 기한(교육 3일 전)을 미준수할 경우 타 프로그램 신청을 제한하는 패널티 제도의 정교화가 요구됨.",
+                    "노년층 참여자의 디지털 접수 장벽을 완화하기 위해 차년도에는 유선 접수 쿼터제(전체 정원의 30%)를 공식 도입하여 운영하는 것이 타당함."
+                ]
+            }
+        ];
+
+        // Initialize App UI and render all components dynamically
+        window.onload = function() {
+            lucide.createIcons();
+            
+            // Build elements
+            renderSteps();
+            renderTypes();
+            renderScenarios();
+            renderSmsMenu();
+            renderChecklists();
+            renderReportingSentences();
+            
+            // Default active panel state
+            switchTab('dashboard');
+
+            // Responsive sidebar events
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const sidebar = document.getElementById('sidebar');
+            mobileMenuBtn.addEventListener('click', () => {
+                sidebar.classList.toggle('hidden');
+            });
+        };
+
+        // Tab Switcher
+        function switchTab(tabId) {
+            document.querySelectorAll('.view-panel').forEach(panel => {
+                panel.classList.add('hidden');
+            });
+            document.getElementById(`view-${tabId}`).classList.remove('hidden');
+
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('text-indigo-700', 'bg-indigo-50/70');
+                btn.classList.add('text-slate-600', 'hover:bg-slate-50', 'hover:text-slate-900');
+            });
+            
+            const activeBtn = document.getElementById(`btn-${tabId}`);
+            if (activeBtn) {
+                activeBtn.classList.add('text-indigo-700', 'bg-indigo-50/70');
+                activeBtn.classList.remove('text-slate-600', 'hover:bg-slate-50', 'hover:text-slate-900');
+            }
+
+            // Close responsive sidebar on mobile tab click
+            if (window.innerWidth < 768) {
+                document.getElementById('sidebar').classList.add('hidden');
+            }
+        }
+
+        // Configuration updates on value change
+        function updateConfig() {
+            config.centerName = document.getElementById('cfg_center').value;
+            config.programName = document.getElementById('cfg_program').value;
+            config.targetName = document.getElementById('cfg_target').value;
+            config.contact = document.getElementById('cfg_contact').value;
+            config.dateTime = document.getElementById('cfg_datetime').value;
+            config.location = document.getElementById('cfg_location').value;
+            config.waitingNo = document.getElementById('cfg_waiting').value;
+            config.penaltyMonths = document.getElementById('cfg_penalty').value;
+
+            // Re-compile dynamic elements to reflect text updates
+            renderSteps();
+            renderTypes();
+            renderScenarios();
+            updateCurrentSms();
+        }
+
+        // Text interpolation helper with dynamic replacements
+        function interpolate(text) {
+            if (!text) return "";
+            return text
+                .replace(/\[\[ㅇㅇ가족센터\]\]/g, config.centerName)
+                .replace(/\[ㅇㅇ가족센터\]/g, config.centerName)
+                .replace(/\[\[프로그램명\]\]/g, config.programName)
+                .replace(/\[프로그램명\]/g, config.programName)
+                .replace(/\[\[참여자명\]\]/g, config.targetName)
+                .replace(/\[참여자명\]/g, config.targetName)
+                .replace(/\[\[대표연락처\]\]/g, config.contact)
+                .replace(/\[대표연락처\]/g, config.contact)
+                .replace(/\[\[교육일시\]\]/g, config.dateTime)
+                .replace(/\[교육일시\]/g, config.dateTime)
+                .replace(/\[\[교육장소\]\]/g, config.location)
+                .replace(/\[교육장소\]/g, config.location)
+                .replace(/\[\[대기번호\]\]/g, config.waitingNo)
+                .replace(/\[대기번호\]/g, config.waitingNo)
+                .replace(/\[\[노쇼패널티\]\]/g, config.penaltyMonths)
+                .replace(/\[노쇼패널티\]/g, config.penaltyMonths)
+                .replace(/\[ㅇ번\]/g, config.waitingNo)
+                .replace(/\[ㅇ개월\]/g, config.penaltyMonths + "개월")
+                .replace(/\[ㅇ월 ㅇ일\]/g, "모집 마감일 직후")
+                .replace(/\[링크\]/g, "https://map.naver.com");
+        }
+
+        // 11-step operational process rendering
+        function renderSteps() {
+            const container = document.getElementById('steps-container');
+            container.innerHTML = "";
+
+            stepsData.forEach(item => {
+                const card = document.createElement('div');
+                card.className = "bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden transition hover:shadow-md";
+                card.innerHTML = `
+                    <div class="bg-slate-50 border-b border-slate-100 px-5 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                        <div class="flex items-center space-x-3">
+                            <span class="bg-indigo-600 text-white font-bold text-xs h-6 w-6 rounded-full flex items-center justify-center">${item.step}</span>
+                            <h3 class="font-bold text-slate-800 text-sm sm:text-base">${item.title}</h3>
+                        </div>
+                        <span class="text-[10px] bg-slate-200 text-slate-600 px-2 py-0.5 rounded font-bold uppercase tracking-wider">주요 실천과정</span>
+                    </div>
+                    <div class="p-5 space-y-4 text-xs text-slate-600">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <span class="font-bold text-slate-800 block mb-1">✔ 주요 업무</span>
+                                <p class="leading-relaxed bg-slate-50 p-2.5 rounded-lg border border-slate-100">${item.tasks}</p>
+                            </div>
+                            <div>
+                                <span class="font-bold text-slate-800 block mb-1">🔍 담당자 확인사항</span>
+                                <p class="leading-relaxed bg-slate-50 p-2.5 rounded-lg border border-slate-100">${item.checks}</p>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <span class="font-bold text-slate-800 block mb-1">📂 필요 서류 및 대장</span>
+                                <p class="leading-relaxed">${item.items}</p>
+                            </div>
+                            <div>
+                                <span class="font-bold text-amber-800 block mb-1">💡 실무 유의사항</span>
+                                <p class="leading-relaxed text-amber-700">${item.note}</p>
+                            </div>
+                        </div>
+                        <div class="pt-3 border-t border-slate-100">
+                            <div class="flex items-center justify-between mb-1.5">
+                                <span class="font-bold text-indigo-900 block">📢 실무 현장 안내 구어</span>
+                                <button onclick="copyRawText('${escapeHtml(interpolate(item.text))}')" class="text-[10px] text-indigo-600 hover:text-indigo-800 font-medium flex items-center gap-1">
+                                    <i data-lucide="copy" class="h-3 w-3"></i> 즉시 복사
+                                </button>
+                            </div>
+                            <div class="bg-indigo-50/40 p-3 rounded-xl border border-indigo-100/30 italic text-indigo-950 font-medium whitespace-pre-line">
+                                "${interpolate(item.text)}"
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+            lucide.createIcons();
+        }
+
+        // Participant Guidelines Grid
+        function renderTypes() {
+            const container = document.getElementById('types-grid');
+            container.innerHTML = "";
+
+            typesData.forEach(item => {
+                const card = document.createElement('div');
+                card.className = "bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm space-y-3 hover:shadow-md transition duration-200";
+                card.innerHTML = `
+                    <div class="flex justify-between items-start border-b border-slate-100 pb-2">
+                        <h3 class="font-bold text-slate-900 text-sm flex items-center gap-1.5">
+                            <i data-lucide="user-cog" class="h-4 w-4 text-indigo-600"></i>
+                            ${item.type}
+                        </h3>
+                        <span class="text-[10px] bg-indigo-50 text-indigo-700 border border-indigo-200 px-2 py-0.5 rounded font-medium">관리포커스</span>
+                    </div>
+                    <div class="space-y-2 text-xs text-slate-600">
+                        <p><strong class="text-slate-800">관리 포인트:</strong> ${item.point}</p>
+                        <p><strong class="text-slate-800">대처 방향:</strong> ${item.dir}</p>
+                        <div class="bg-rose-50 border border-rose-100 text-rose-800 p-2 rounded-lg text-[11px]">
+                            <strong>🚫 금지 표현:</strong> "${item.avoid}"
+                        </div>
+                        <div class="bg-emerald-50 border border-emerald-100 text-emerald-800 p-2 rounded-lg text-[11px] relative">
+                            <div class="flex items-center justify-between mb-0.5">
+                                <strong>💡 추천 안내 문구:</strong>
+                                <button onclick="copyRawText('${escapeHtml(interpolate(item.recom))}')" class="text-[10px] text-emerald-700 hover:text-emerald-900 font-bold flex items-center gap-0.5">
+                                    <i data-lucide="copy" class="h-2.5 w-2.5"></i> 복사
+                                </button>
+                            </div>
+                            "${interpolate(item.recom)}"
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+            lucide.createIcons();
+        }
+
+        // Situation response cards
+        function renderScenarios() {
+            const container = document.getElementById('scenarios-container');
+            container.innerHTML = "";
+
+            scenariosData.forEach(item => {
+                const card = document.createElement('div');
+                card.className = "scenario-card bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden transition duration-200";
+                card.setAttribute('data-search', item.title + " " + item.description);
+                card.innerHTML = `
+                    <div class="bg-slate-50 border-b border-slate-100 px-5 py-3.5 flex justify-between items-center">
+                        <div class="flex items-center space-x-2">
+                            <span class="bg-slate-200 text-slate-700 font-bold text-[10px] px-2 py-0.5 rounded-full">상황 ${item.id}</span>
+                            <h3 class="font-bold text-slate-900 text-sm">${item.title}</h3>
+                        </div>
+                        <i data-lucide="help-circle" class="h-4 w-4 text-indigo-600"></i>
+                    </div>
+                    <div class="p-5 space-y-3.5 text-xs text-slate-600">
+                        <p class="leading-relaxed italic text-slate-500 bg-slate-50/50 p-2 rounded-lg border border-slate-100">"${item.description}"</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <span class="font-bold text-slate-800 block mb-1">🛡 응대 대원칙</span>
+                                <p class="leading-relaxed bg-indigo-50/30 p-2 rounded-lg border border-indigo-100/20 text-indigo-950">${item.principle}</p>
+                            </div>
+                            <div>
+                                <span class="font-bold text-slate-800 block mb-1">🚨 담당자 현장 확인사항</span>
+                                <p class="leading-relaxed bg-slate-50 p-2 rounded-lg border border-slate-100">${item.checklist}</p>
+                            </div>
+                        </div>
+                        <div class="bg-indigo-950 text-white p-4 rounded-xl border border-indigo-900 relative">
+                            <div class="flex items-center justify-between mb-1 text-indigo-300">
+                                <span class="font-bold text-[11px] uppercase tracking-wider">실제 대응 유선/지면 표준 스크립트</span>
+                                <button onclick="copyRawText('${escapeHtml(interpolate(item.script))}')" class="text-[10px] text-white hover:text-indigo-200 font-semibold flex items-center gap-1 bg-indigo-800 px-2.5 py-1 rounded-lg transition">
+                                    <i data-lucide="copy" class="h-3 w-3"></i> 복사하기
+                                </button>
+                            </div>
+                            <p class="leading-relaxed font-medium font-sans text-xs whitespace-pre-line">${interpolate(item.script)}</p>
+                        </div>
+                        <p class="text-[11px] text-slate-400"><strong>사후 후속 처리 조치:</strong> ${item.followUp}</p>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+            lucide.createIcons();
+        }
+
+        // Scenario search filtering
+        function filterScenarios() {
+            const query = document.getElementById('search-scenarios').value.toLowerCase();
+            document.querySelectorAll('.scenario-card').forEach(card => {
+                const searchText = card.getAttribute('data-search').toLowerCase();
+                if (searchText.includes(query)) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        }
+
+        // SMS Customizer lists
+        let selectedSmsId = "sms-reg-ok";
+
+        function renderSmsMenu() {
+            const menu = document.getElementById('sms-menu');
+            menu.innerHTML = "";
+
+            smsTemplates.forEach(tpl => {
+                const btn = document.createElement('button');
+                btn.className = `w-full text-left px-3 py-2 rounded-lg text-xs font-medium transition ${tpl.id === selectedSmsId ? 'bg-indigo-50 text-indigo-700' : 'text-slate-600 hover:bg-slate-50'}`;
+                btn.id = `btn-${tpl.id}`;
+                btn.innerText = tpl.title;
+                btn.onclick = () => {
+                    selectedSmsId = tpl.id;
+                    document.querySelectorAll('#sms-menu button').forEach(b => {
+                        b.classList.remove('bg-indigo-50', 'text-indigo-700');
+                        b.classList.add('text-slate-600', 'hover:bg-slate-50');
+                    });
+                    btn.classList.add('bg-indigo-50', 'text-indigo-700');
+                    btn.classList.remove('text-slate-600', 'hover:bg-slate-50');
+                    updateCurrentSms();
+                };
+                menu.appendChild(btn);
+            });
+            updateCurrentSms();
+        }
+
+        function updateCurrentSms() {
+            const tpl = smsTemplates.find(t => t.id === selectedSmsId);
+            if (!tpl) return;
+
+            document.getElementById('sms-title').innerText = tpl.title;
+            const compiled = interpolate(tpl.content);
+            document.getElementById('sms-preview-box').innerText = compiled;
+        }
+
+        function copyCurrentSms() {
+            const text = document.getElementById('sms-preview-box').innerText;
+            copyRawText(text);
+        }
+
+        // Multi-tier checklists with dynamic progress tracker
+        function renderChecklists() {
+            const container = document.getElementById('checklists-container');
+            container.innerHTML = "";
+
+            checklistSections.forEach((section, sIdx) => {
+                const sectEl = document.createElement('div');
+                sectEl.className = "bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm space-y-3";
+                
+                let checkItemsHtml = "";
+                section.items.forEach(item => {
+                    checkItemsHtml += `
+                        <label class="flex items-start gap-3 p-2.5 rounded-xl hover:bg-slate-50 transition cursor-pointer text-xs">
+                            <input type="checkbox" id="${item.id}" onchange="onCheckChange()" class="mt-0.5 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500 h-4 w-4">
+                            <span class="text-slate-700 font-medium leading-relaxed">${item.text}</span>
+                        </label>
+                    `;
+                });
+
+                sectEl.innerHTML = `
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-2">
+                        <h3 class="font-bold text-slate-900 text-sm flex items-center gap-1.5">
+                            <i data-lucide="check-circle" class="h-4 w-4 text-indigo-600"></i>
+                            ${section.category}
+                        </h3>
+                        <span id="prog-${sIdx}" class="text-[10px] bg-slate-100 text-slate-500 px-2 py-0.5 rounded-full font-bold">0% 완료</span>
+                    </div>
+                    <div class="space-y-1">
+                        ${checkItemsHtml}
+                    </div>
+                `;
+                container.appendChild(sectEl);
+            });
+            lucide.createIcons();
+            loadCheckedState();
+        }
+
+        function onCheckChange() {
+            // Recalculate progress rates
+            let totalChecked = 0;
+            let totalItems = 0;
+
+            checklistSections.forEach((sect, sIdx) => {
+                let checkedCount = 0;
+                sect.items.forEach(item => {
+                    totalItems++;
+                    const chk = document.getElementById(item.id);
+                    if (chk && chk.checked) {
+                        checkedCount++;
+                        totalChecked++;
+                    }
+                });
+                
+                const percent = sect.items.length ? Math.round((checkedCount / sect.items.length) * 100) : 0;
+                document.getElementById(`prog-${sIdx}`).innerText = `${percent}% 완료`;
+                
+                if (percent === 100) {
+                    document.getElementById(`prog-${sIdx}`).className = "text-[10px] bg-emerald-50 text-emerald-700 border border-emerald-200 px-2 py-0.5 rounded-full font-bold";
+                } else {
+                    document.getElementById(`prog-${sIdx}`).className = "text-[10px] bg-slate-100 text-slate-500 px-2 py-0.5 rounded-full font-bold";
+                }
+            });
+
+            const globalPercent = totalItems ? Math.round((totalChecked / totalItems) * 100) : 0;
+            document.getElementById('global-progress-txt').innerText = `${globalPercent}%`;
+            document.getElementById('global-progress-bar').style.width = `${globalPercent}%`;
+            document.getElementById('global-progress-count').innerText = `${totalChecked}/${totalItems}`;
+
+            // Save checklists state locally to Session Storage
+            saveCheckedState();
+        }
+
+        function saveCheckedState() {
+            const state = {};
+            checklistSections.forEach(sect => {
+                sect.items.forEach(item => {
+                    const el = document.getElementById(item.id);
+                    if (el) state[item.id] = el.checked;
+                });
+            });
+            sessionStorage.setItem('smart_manual_checklists', JSON.stringify(state));
+        }
+
+        function loadCheckedState() {
+            const data = sessionStorage.getItem('smart_manual_checklists');
+            if (!data) return;
+            try {
+                const state = JSON.parse(data);
+                for (const id in state) {
+                    const el = document.getElementById(id);
+                    if (el) el.checked = state[id];
+                }
+                onCheckChange();
+            } catch (e) {
+                console.error("Failed to restore checklists state", e);
+            }
+        }
+
+        function resetChecklists() {
+            checklistSections.forEach(sect => {
+                sect.items.forEach(item => {
+                    const el = document.getElementById(item.id);
+                    if (el) el.checked = false;
+                });
+            });
+            onCheckChange();
+        }
+
+        // Internal reporting sentence builder
+        function renderReportingSentences() {
+            const container = document.getElementById('reporting-sentences-container');
+            container.innerHTML = "";
+
+            reportSentences.forEach((section, idx) => {
+                const sectEl = document.createElement('div');
+                sectEl.className = "bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm space-y-3";
+                
+                let sentencesHtml = "";
+                section.sentences.forEach((sen, sIdx) => {
+                    sentencesHtml += `
+                        <div class="flex items-start justify-between gap-4 p-3 bg-slate-50 rounded-xl hover:bg-indigo-50/10 transition border border-slate-100/80 text-xs">
+                            <span class="text-slate-700 font-sans leading-relaxed flex-1">${sen}</span>
+                            <button onclick="copyRawText('${escapeHtml(sen)}')" class="flex-shrink-0 text-indigo-600 hover:text-indigo-800 font-semibold flex items-center gap-1 bg-white border border-indigo-100 px-2 py-1 rounded shadow-sm hover:shadow">
+                                <i data-lucide="copy" class="h-3 w-3"></i> 복사
+                            </button>
+                        </div>
+                    `;
+                });
+
+                sectEl.innerHTML = `
+                    <h3 class="font-bold text-slate-900 text-sm flex items-center gap-1.5 border-b border-slate-100 pb-2">
+                        <i data-lucide="clipboard-signature" class="h-4 w-4 text-indigo-600"></i>
+                        ${section.category}
+                    </h3>
+                    <div class="space-y-2">
+                        ${sentencesHtml}
+                    </div>
+                `;
+                container.appendChild(sectEl);
+            });
+            lucide.createIcons();
+        }
+
+        // Core Copy Engine Function
+        function copyRawText(text) {
+            const el = document.createElement('textarea');
+            el.value = text;
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+
+            showToast("클립보드에 실시간 복사 완료!");
+        }
+
+        function showToast(text) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-text').innerText = text;
+            
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 2500);
+        }
+
+        // HTML escaping safe utility
+        function escapeHtml(text) {
+            return text
+                .replace(/'/g, "\\'")
+                .replace(/"/g, '\\"')
+                .replace(/\n/g, '\\n');
+        }
+    </script>
+</body>
+</html>
